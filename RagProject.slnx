@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="src/RagProject.API/RagProject.API.csproj" />
+  <Project Path="src/RagProject.Application/RagProject.Application.csproj" />
+  <Project Path="src/RagProject.Domain/RagProject.Domain.csproj" />
+  <Project Path="src/RagProject.Infrastructure/RagProject.Infrastructure.csproj" />
+</Solution>

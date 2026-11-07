@@ -24,14 +24,17 @@ namespace RagProject.Infrastructure.Documents
             .ToListAsync();
         }
 
-        public async Task<List<Document>> SearchAsync(string query)
+        public async Task<List<Document>> SearchAsync(string query,int page ,int pageSize)
         {
             return await _dbContext.Documents
-        .AsNoTracking()
-        .Where(d =>
-            d.Title.Contains(query) ||
-            d.Content.Contains(query))
-        .ToListAsync();
+                .AsNoTracking()
+                .Where(d =>
+                    d.Title.Contains(query) ||
+                    d.Content.Contains(query))
+                .OrderBy(d => d.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
     }
 

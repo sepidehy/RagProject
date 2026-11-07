@@ -14,10 +14,13 @@ namespace RagProject.API.Features
                 return Results.Ok(documents);
             });
 
-            endpoints.MapGet("/documents/search", async (string q,
-                IDocumentService documentService) =>
+            endpoints.MapGet("/documents/search", async (string q,IDocumentService documentService, int page = 1, int pageSize = 10) =>
             {
-                var documents = await documentService.SearchAsync(q);
+                if (page <= 0 || pageSize <= 0 || pageSize > 100)
+                    return Results.BadRequest("Invalid pagination parameters.");
+
+                var documents = await documentService.SearchAsync(q, page, pageSize);
+
                 return Results.Ok(documents);
             });
 

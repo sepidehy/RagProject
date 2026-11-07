@@ -9,6 +9,6 @@ namespace RagProject.Application.Documents
     {
         Task<List<Document>> GetAllAsync();
 
-        Task<List<Document>> SearchAsync(string query);
+        Task<List<Document>> SearchAsync(string query, int page = 1, int pageSize = 10);
     }
 }

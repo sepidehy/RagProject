@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RagProject.Application.Common;
 using RagProject.Application.Documents;
 using RagProject.Domain;
 using RagProject.Infrastructure.Persistence;
@@ -24,17 +25,24 @@ namespace RagProject.Infrastructure.Documents
             .ToListAsync();
         }
 
-        public async Task<List<Document>> SearchAsync(string query,int page ,int pageSize)
+        public async Task<PagedResult<Document>> SearchAsync(string query,int page ,int pageSize)
         {
-            return await _dbContext.Documents
+            var queryable = _dbContext.Documents
                 .AsNoTracking()
                 .Where(d =>
                     d.Title.Contains(query) ||
-                    d.Content.Contains(query))
+                    d.Content.Contains(query));
+
+            var totalCount = await queryable.CountAsync();
+
+            var items =  await queryable
                 .OrderBy(d => d.Id)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
+            return new PagedResult<Document> { Items = items , Page = page, PageSize = pageSize, TotalCount = totalCount};
+                
         }
     }
 

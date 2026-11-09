@@ -16,6 +16,8 @@ namespace RagProject.Infrastructure.Persistence
 
         public DbSet<Document> Documents => Set<Document>();
 
+        public DbSet<DocumentChunk> Chunks => Set<DocumentChunk>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -34,6 +36,36 @@ namespace RagProject.Infrastructure.Persistence
 
                 entity.Property(d => d.Content)
                     .HasColumnName("content");
+
+            });
+
+            modelBuilder.Entity<DocumentChunk>(entity =>
+            {
+                entity.ToTable("document_chunks");
+
+                entity.HasKey(d => d.Id);
+
+                entity.Property(d => d.DocumentId)
+                    .HasColumnName("document_id");             
+
+                entity.Property(d => d.Id)
+                    .HasColumnName("id");
+
+                entity.Property(d => d.Content)
+                    .HasColumnName("content");
+
+                entity.Property(d => d.ChunkIndex)
+                    .HasColumnName("chunk_index");
+
+                entity.HasOne(d => d.Document)
+                    .WithMany(d => d.Chunks)
+                    .HasForeignKey(d => d.DocumentId)
+                    .OnDelete(DeleteBehavior.Cascade); ;
+
+                entity.HasIndex(c => new { c.DocumentId, c.ChunkIndex })
+                    .IsUnique();
+
+
             });
         }
     }

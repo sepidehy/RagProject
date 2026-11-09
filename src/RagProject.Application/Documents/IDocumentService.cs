@@ -1,4 +1,5 @@
-﻿using RagProject.Domain;
+﻿using RagProject.Application.Common;
+using RagProject.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,6 @@ namespace RagProject.Application.Documents
     {
         Task<List<Document>> GetAllAsync();
 
-        Task<List<Document>> SearchAsync(string query, int page = 1, int pageSize = 10);
+        Task<PagedResult<Document>> SearchAsync(string query, int page = 1, int pageSize = 10);
     }
 }

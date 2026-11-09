@@ -11,5 +11,8 @@ namespace RagProject.Domain
         public string Title { get; set; } = string.Empty;
 
         public string Content { get; set; } = string.Empty;
+
+        public ICollection<DocumentChunk> Chunks { get; set; }
+        = new List<DocumentChunk>();
     }
 }

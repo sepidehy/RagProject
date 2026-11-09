@@ -16,6 +16,9 @@ namespace RagProject.API.Features
 
             endpoints.MapGet("/documents/search", async (string q,IDocumentService documentService, int page = 1, int pageSize = 10) =>
             {
+                if (string.IsNullOrWhiteSpace(q))
+                    return Results.BadRequest("Search query is required.");
+
                 if (page <= 0 || pageSize <= 0 || pageSize > 100)
                     return Results.BadRequest("Invalid pagination parameters.");
 
